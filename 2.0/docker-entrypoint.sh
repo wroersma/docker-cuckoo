@@ -112,7 +112,7 @@ setUpCuckoo(){
 if [ "${1:0:1}" = '-' ]; then
   setUpCuckoo
   # Change the ownership of /cuckoo to cuckoo
-  chown -R cuckoo:cuckoo /cuckoo
+  chown -R root:root /cuckoo
   cd /cuckoo/
 
   set -- su-exec cuckoo /sbin/tini -- cuckoo "$@"
@@ -125,7 +125,7 @@ if [ "$1" = 'daemon' -a "$(id -u)" = '0' ]; then
   export RESULTSERVER=${RESULTSERVER:=0.0.0.0}
   setUpCuckoo
   # Change the ownership of /cuckoo to cuckoo
-  chown -R cuckoo:cuckoo /cuckoo
+  chown -R root:root /cuckoo
   cd /cuckoo
   rm -rf pidfiles/*.pid
 
@@ -135,16 +135,16 @@ elif [ "$1" = 'submit' -a "$(id -u)" = '0' ]; then
   shift
   setUpCuckoo
   # Change the ownership of /cuckoo to cuckoo
-  chown -R cuckoo:cuckoo /cuckoo
+  chown -R root:root /cuckoo
 
-  set -- su-exec cuckoo /sbin/tini -- cuckoo submit "$@"
+  set -- su-exec root /sbin/tini -- cuckoo submit "$@"
 
 elif [ "$1" = 'api' -a "$(id -u)" = '0' ]; then
   setUpCuckoo
   # Change the ownership of /cuckoo to cuckoo
-  chown -R cuckoo:cuckoo /cuckoo
+  chown -R root:root /cuckoo
 
-  set -- su-exec cuckoo /sbin/tini -- cuckoo api --host 0.0.0.0 --port 1337
+  set -- su-exec root /sbin/tini -- cuckoo api --host 0.0.0.0 --port 1337
 
 elif [ "$1" = 'web' -a "$(id -u)" = '0' ]; then
   setUpCuckoo
@@ -153,9 +153,9 @@ elif [ "$1" = 'web' -a "$(id -u)" = '0' ]; then
     exit 1
   fi
   # Change the ownership of /cuckoo to cuckoo
-  chown -R cuckoo:cuckoo /cuckoo
+  chown -R root:root /cuckoo
 
-  set -- su-exec cuckoo /sbin/tini -- cuckoo web runserver 0.0.0.0:31337
+  set -- su-exec root /sbin/tini -- cuckoo web runserver 0.0.0.0:31337
 fi
 
 exec "$@"
